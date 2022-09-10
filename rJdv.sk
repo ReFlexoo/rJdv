@@ -1,0 +1,200 @@
+# Minigame: Jogo da velha
+# Criador: ReFlexoo__
+
+#Em caso de problemas acesse: https://discord.gg/eehY3dH5XU
+
+on load:
+	if file "plugins\Skript\scripts\rJdvAPI.sk" exists:
+		send "&a[rJdv] Api Carregada com sucesso." to console
+	else:
+		download file from "https://raw.githubusercontent.com/ReFlexoo/rJdvAPI/main/rJdvAPI.sk" to file "plugins\Skript\scripts\rJdvAPI.sk"
+		send "&e[rJdv] Api baixada com sucesso." to console
+		make console execute "sk reload rJdvAPI.sk"
+	send "&a[rJdv] version 1.0 developer ReFlexoo" to console
+on join:
+	invoke "fim.config" from player
+	set {accept.invite.%arg 1%} to false
+command /game [<offlineplayer>] [<offlineplayer>]:
+	trigger:
+		if arg 1 is not set:
+			send "&cUse: /game [Jogador]"
+			stop
+		if arg 1 is set:
+			if arg 1 is not player:
+				send "" to player
+				send "&2&lJOGO DA VELHA." to player
+				send "" to player
+				send "&e Solicitação enviada para &3&l%arg 1%&e." to player
+				send "&e Espere até que o jogador aceite seu convite." to player
+				send "" to player
+				send "" to arg 1
+				send "&2&lJOGO DA VELHA." to arg 1
+				send "" to arg 1
+				send "&3&l %player% &eEstá te convidando para jogar." to arg 1
+				send json "&e Clique " then "&a&lAQUI " run "/game accept %player%" then "&epara aceitar a solicitação." to arg 1
+				send "" to arg 1
+				set {accept.invite.%arg 1%} to true
+			else:
+				send "&cErro! Você não pode se convidar para jogar."
+				stop
+		if arg 1 is "accept":
+			if arg 2 is set:
+				if {accept.invite.%player%} is true:
+					invoke "fim.config" from player
+					set {game.on.%player%} to true
+					set {game.on.%arg 2%} to true
+					set {rodada.%arg 2%} to true
+					delete {rodada.%player%}
+					delete {status.game.%arg 2%}
+					delete {status.game.%player%}
+					set {status.game.%player%} to "&aSua vez de jogar."
+					set {status.game.%arg 2%} to "&8Aguarde o adversario jogar."
+					set {ad.game.%player%} to "%arg 2%"
+					set {ad.game.%arg 2%} to "%player%"
+					invoke "config.game" from arg 2
+					invoke "config.game" from player		
+					invoke "jogo.da.velha.ad" from arg 2
+					invoke "jogo.da.velha" from player
+					delete {accept.invite.%player%}
+					stop
+				else:
+					send "&cErro! Convite invalido."
+					stop
+			else:
+				send "&cErro! Cite um jogador para competir com você."
+				stop
+sub "jogo.da.velha":
+	set {_p} to parameter 1
+	if {game.derrota.fim.%{_p}%} is not set:
+		if {game.victory.fim.%{_p}%} is not set:
+			if {game.empate.%{_p}%} is not set:
+				if {rodada.%{_p}%} is not set:
+					send "" to {_p}
+					send "&2Jogo da velha" to {_p}
+					send "" to {_p}
+					send json "%{X.1.%{_p}%}% " run "/oktge jr 1 %{ad.game.%{_p}%}%" then "%{X.2.%{_p}%}% " run "/oktge jr 2 %{ad.game.%{_p}%}%" then "%{X.3.%{_p}%}%" run "/oktge jr 3 %{ad.game.%{_p}%}%" to {_p}
+					send json "%{X.4.%{_p}%}% " run "/oktge jr 4 %{ad.game.%{_p}%}%" then "%{X.5.%{_p}%}% " run "/oktge jr 5 %{ad.game.%{_p}%}%" then "%{X.6.%{_p}%}%" run "/oktge jr 6 %{ad.game.%{_p}%}%" to {_p}
+					send json "%{X.7.%{_p}%}% " run "/oktge jr 7 %{ad.game.%{_p}%}%" then "%{X.8.%{_p}%}% " run "/oktge jr 8 %{ad.game.%{_p}%}%" then "%{X.9.%{_p}%}%" run "/oktge jr 9 %{ad.game.%{_p}%}%" to {_p}
+					send "" to {_p}
+					send "&2Jogo: %{status.game.%{_p}%}%" to {_p}
+					send "" to {_p}
+					stop
+				if {rodada.%{_p}%} is set:
+					send "" to {_p}
+					send "&2Jogo da velha" to {_p}
+					send "" to {_p}
+					send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+					send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+					send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+					send "" to {_p}
+					send "&2Jogo: %{status.game.%{_p}%}%" to {_p}
+					send "" to {_p}
+					stop
+			else:
+				send "" to {_p}
+				send "&2Jogo da velha" to {_p}
+				send "" to {_p}
+				send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+				send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+				send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+				send "" to {_p}
+				send "&2Jogo: &eEmpate" to {_p}
+				send "" to {_p}
+				stop
+		else:
+			send "" to {_p}
+			send "&2Jogo da velha" to {_p}
+			send "" to {_p}
+			send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+			send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+			send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+			send "" to {_p}
+			send "&2Jogo: &6Você ganhou o jogo!" to {_p}
+			send "" to {_p}
+			stop
+	else:
+		send "" to {_p}
+		send "&2Jogo da velha" to {_p}
+		send "" to {_p}
+		send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+		send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+		send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+		send "" to {_p}
+		send "&2Jogo: &cVocê perdeu o jogo." to {_p}
+		send "" to {_p}
+		stop
+sub "jogo.da.velha.ad":
+	set {_p} to parameter 1
+	if {game.derrota.fim.%{_p}%} is not set:
+		if {game.victory.fim.%{_p}%} is not set:
+			if {game.empate.%{_p}%} is not set:
+				if {rodada.%{_p}%} is not set:
+					send "" to {_p}
+					send "&2Jogo da velha" to {_p}
+					send "" to {_p}
+					send json "%{X.1.%{_p}%}% " run "/oktge ad 1 %{ad.game.%{_p}%}%" then "%{X.2.%{_p}%}% " run "/oktge ad 2 %{ad.game.%{_p}%}%" then "%{X.3.%{_p}%}%" run "/oktge ad 3 %{ad.game.%{_p}%}%" to {_p}
+					send json "%{X.4.%{_p}%}% " run "/oktge ad 4 %{ad.game.%{_p}%}%" then "%{X.5.%{_p}%}% " run "/oktge ad 5 %{ad.game.%{_p}%}%" then "%{X.6.%{_p}%}%" run "/oktge ad 6 %{ad.game.%{_p}%}%" to {_p}
+					send json "%{X.7.%{_p}%}% " run "/oktge ad 7 %{ad.game.%{_p}%}%" then "%{X.8.%{_p}%}% " run "/oktge ad 8 %{ad.game.%{_p}%}%" then "%{X.9.%{_p}%}%" run "/oktge ad 9 %{ad.game.%{_p}%}%" to {_p}
+					send "" to {_p}
+					send "&2Jogo: %{status.game.%{_p}%}%" to {_p}
+					send "" to {_p}
+					stop
+				if {rodada.%{_p}%} is set:
+					send "" to {_p}
+					send "&2Jogo da velha" to {_p}
+					send "" to {_p}
+					send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+					send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+					send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+					send "" to {_p}
+					send "&2Jogo: %{status.game.%{_p}%}%" to {_p}
+					send "" to {_p}
+					stop
+			else:
+				send "" to {_p}
+				send "&2Jogo da velha" to {_p}
+				send "" to {_p}
+				send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+				send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+				send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+				send "" to {_p}
+				send "&2Jogo: &eEmpate" to {_p}
+				send "" to {_p}
+				stop
+		else:
+			send "" to {_p}
+			send "&2Jogo da velha" to {_p}
+			send "" to {_p}
+			send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+			send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+			send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+			send "" to {_p}
+			send "&2Jogo: &6Você ganhou o jogo!" to {_p}
+			send "" to {_p}
+			stop
+	else:
+		send "" to {_p}
+		send "&2Jogo da velha" to {_p}
+		send "" to {_p}
+		send "%{X.1.%{_p}%}% %{X.2.%{_p}%}% %{X.3.%{_p}%}%" to {_p}
+		send "%{X.4.%{_p}%}% %{X.5.%{_p}%}% %{X.6.%{_p}%}%" to {_p}
+		send "%{X.7.%{_p}%}% %{X.8.%{_p}%}% %{X.9.%{_p}%}%" to {_p}
+		send "" to {_p}
+		send "&2Jogo: &cVocê perdeu o jogo." to {_p}
+		send "" to {_p}
+		stop
+sub "config.game":
+	set {_p} to parameter 1
+	set {X.1.%{_p}%} to "&7x"
+	set {X.2.%{_p}%} to "&7x"
+	set {X.3.%{_p}%} to "&7x"
+	set {X.4.%{_p}%} to "&7x"
+	set {X.5.%{_p}%} to "&7x"
+	set {X.6.%{_p}%} to "&7x"
+	set {X.7.%{_p}%} to "&7x"
+	set {X.8.%{_p}%} to "&7x"
+	set {X.9.%{_p}%} to "&7x"
+	stop
+on chat:
+	if {game.on.%player%} is set:
+		cancel event
