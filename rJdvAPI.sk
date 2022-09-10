@@ -1,0 +1,350 @@
+command /oktge [<text>] [<text>] [<offlineplayer>]:
+	trigger:
+		if {rodada.%player%} is not set:
+			if arg 1 is "jr":
+				if arg 2 is set:
+					if arg 3 is set:
+						add arg 2 to {id.list.%player%::*}
+						loop {id.list.%player%::*}:
+							if {set.x.%loop-value%.%player%} is not set:
+								set {victory.id.%loop-value%.%player%} to true
+								make player execute command "wiadhna %{ad.game.%player%}%"
+								delete {X.%loop-value%.%player%}
+								delete {X.%loop-value%.%arg 3%}
+								delete {rodada.%arg 3%}
+								delete {status.game.%arg 3%}
+								delete {status.game.%player%}
+								set {status.game.%arg 3%} to "&aSua vez de jogar."
+								set {status.game.%player%} to "&8Aguarde o adversario jogar."
+								set {X.%loop-value%.%player%} to "&ax"
+								set {X.%loop-value%.%arg 3%} to "&ex"
+								set {set.x.%loop-value%.%player%} to true
+								set {set.x.%loop-value%.%arg 3%} to true
+								set {rodada.%player%} to true
+								set {empate.id.%loop-value%.%player%} to true
+								set {empate.id.%loop-value%.%arg 3%} to true
+								invoke "jogo.da.velha" from player
+								invoke "jogo.da.velha.ad" from arg 3
+								clear {id.list.%player%::*}
+								stop
+			if arg 1 is "ad":
+				if arg 2 is set:
+					if arg 3 is set:
+						add arg 2 to {id.list.%player%::*}
+						loop {id.list.%player%::*}:
+							if {set.x.%loop-value%.%player%} is not set:
+								set {victory.id.%loop-value%.%player%} to true
+								make player execute command "wiadhna %{ad.game.%player%}%"
+								delete {X.%loop-value%.%player%}
+								delete {X.%loop-value%.%arg 3%}
+								delete {rodada.%arg 3%}
+								delete {status.game.%arg 3%}
+								delete {status.game.%player%}
+								set {status.game.%arg 3%} to "&aSua vez de jogar."
+								set {status.game.%player%} to "&8Aguarde o adversario jogar."
+								set {X.%loop-value%.%player%} to "&ax"
+								set {X.%loop-value%.%arg 3%} to "&ex"
+								set {set.x.%loop-value%.%player%} to true
+								set {set.x.%loop-value%.%arg 3%} to true
+								set {rodada.%player%} to true
+								set {empate.id.%loop-value%.%player%} to true
+								set {empate.id.%loop-value%.%arg 3%} to true
+								invoke "jogo.da.velha" from arg 3
+								invoke "jogo.da.velha.ad" from player
+								clear {id.list.%player%::*}
+								stop
+command /wiadhna [<text>]:
+	trigger:
+		if arg 1 is set:
+			if {victory.id.1.%player%} is set:	
+				if {victory.id.2.%player%} is set:	
+					if {victory.id.3.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1						
+						wait 3 seconds
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {victory.id.4.%player%} is set:	
+				if {victory.id.5.%player%} is set:
+					if {victory.id.6.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1					
+						wait 3 seconds
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {victory.id.7.%player%} is set:
+				if {victory.id.8.%player%} is set:
+					if {victory.id.9.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1					
+						wait 3 seconds
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {victory.id.1.%player%} is set:
+				if {victory.id.4.%player%} is set:
+					if {victory.id.7.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1	
+						wait 3 seconds						
+						invoke "fim.config" from player					
+						invoke "fim.config" from arg 1
+			if {victory.id.2.%player%} is set:
+				if {victory.id.5.%player%} is set:
+					if {victory.id.8.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%player%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						set {rodada.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1						
+						wait 3 seconds
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {victory.id.3.%player%} is set:	
+				if {victory.id.6.%player%} is set:
+					if {victory.id.9.%player%} is set:
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						set {rodada.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1						
+						wait 3 seconds
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {victory.id.1.%player%} is set:	
+				if {victory.id.5.%player%} is set:
+					if {victory.id.9.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1
+						wait 3 seconds	
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {victory.id.3.%player%} is set:
+				if {victory.id.5.%player%} is set:
+					if {victory.id.7.%player%} is set:
+						delete {status.game.%player%}
+						delete {status.game.%arg 1%}
+						set {rodada.%player%} to true
+						set {rodada.%arg 1%} to true
+						set {game.victory.fim.%player%} to true
+						set {game.derrota.fim.%arg 1%} to true
+						invoke "jogo.da.velha.ad" from arg 1	
+						wait 3 seconds	
+						invoke "fim.config" from player
+						invoke "fim.config" from arg 1
+			if {empate.id.2.%player%} is set:
+				if {empate.id.3.%player%} is set:
+					if {empate.id.4.%player%} is set:
+						if {empate.id.5.%player%} is set:
+							if {empate.id.6.%player%} is set:
+								if {empate.id.7.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.3.%player%} is set:
+					if {empate.id.4.%player%} is set:
+						if {empate.id.5.%player%} is set:
+							if {empate.id.6.%player%} is set:
+								if {empate.id.7.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.4.%player%} is set:
+						if {empate.id.5.%player%} is set:
+							if {empate.id.6.%player%} is set:
+								if {empate.id.7.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.3.%player%} is set:
+						if {empate.id.5.%player%} is set:
+							if {empate.id.6.%player%} is set:
+								if {empate.id.7.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.3.%player%} is set:
+						if {empate.id.4.%player%} is set:
+							if {empate.id.6.%player%} is set:
+								if {empate.id.7.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.3.%player%} is set:
+						if {empate.id.4.%player%} is set:
+							if {empate.id.5.%player%} is set:
+								if {empate.id.7.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.3.%player%} is set:
+						if {empate.id.4.%player%} is set:
+							if {empate.id.5.%player%} is set:
+								if {empate.id.6.%player%} is set:
+									if {empate.id.8.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.3.%player%} is set:
+						if {empate.id.4.%player%} is set:
+							if {empate.id.5.%player%} is set:
+								if {empate.id.6.%player%} is set:
+									if {empate.id.7.%player%} is set:
+										if {empate.id.9.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from arg 1
+											invoke "fim.config" from player
+											stop
+			if {empate.id.1.%player%} is set:
+				if {empate.id.2.%player%} is set:
+					if {empate.id.3.%player%} is set:
+						if {empate.id.4.%player%} is set:
+							if {empate.id.5.%player%} is set:
+								if {empate.id.6.%player%} is set:
+									if {empate.id.7.%player%} is set:
+										if {empate.id.8.%player%} is set:
+											set {game.empate.%player%} to true
+											set {game.empate.%arg 1%} to true
+											invoke "jogo.da.velha.ad" from arg 1
+											wait 3 seconds
+											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
+											stop
+sub "fim.config":
+	set {_p} to parameter 1
+	delete {game.on.%{_p}%}
+	delete {victory.id.1.%{_p}%}
+	delete {victory.id.2.%{_p}%}
+	delete {victory.id.3.%{_p}%}
+	delete {victory.id.4.%{_p}%}
+	delete {victory.id.5.%{_p}%}
+	delete {victory.id.6.%{_p}%}
+	delete {victory.id.7.%{_p}%}
+	delete {victory.id.8.%{_p}%}
+	delete {victory.id.9.%{_p}%}
+	delete {set.x.1.%{_p}%}
+	delete {set.x.2.%{_p}%}
+	delete {set.x.3.%{_p}%}
+	delete {set.x.4.%{_p}%}
+	delete {set.x.5.%{_p}%}
+	delete {set.x.6.%{_p}%}
+	delete {set.x.7.%{_p}%}
+	delete {set.x.8.%{_p}%}
+	delete {set.x.9.%{_p}%}
+	delete {X.1.%{_p}%}
+	delete {X.2.%{_p}%}
+	delete {X.3.%{_p}%}
+	delete {X.4.%{_p}%}
+	delete {X.5.%{_p}%}
+	delete {X.6.%{_p}%}
+	delete {X.7.%{_p}%}
+	delete {X.8.%{_p}%}
+	delete {X.9.%{_p}%}
+	delete {rodada.%{_p}%}
+	delete {set.x.1.%{_p}%}
+	delete {set.x.2.%{_p}%}
+	delete {set.x.3.%{_p}%}
+	delete {set.x.4.%{_p}%}
+	delete {set.x.5.%{_p}%}
+	delete {set.x.6.%{_p}%}
+	delete {set.x.7.%{_p}%}
+	delete {set.x.8.%{_p}%}
+	delete {set.x.9.%{_p}%}
+	delete {empate.id.1.%{_p}%}
+	delete {empate.id.2.%{_p}%}
+	delete {empate.id.3.%{_p}%}
+	delete {empate.id.4.%{_p}%}
+	delete {empate.id.5.%{_p}%}
+	delete {empate.id.6.%{_p}%}
+	delete {empate.id.7.%{_p}%}
+	delete {empate.id.8.%{_p}%}
+	delete {empate.id.9.%{_p}%}
+	delete {game.empate.%{_p}%}
+	delete {game.victory.fim.%{_p}%}
+	delete {game.derrota.fim.%{_p}%}
+	stop
