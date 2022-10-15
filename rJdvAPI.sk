@@ -16,15 +16,21 @@ command /oktge [<text>] [<text>] [<offlineplayer>]:
 								delete {status.game.%player%}
 								set {status.game.%arg 3%} to "&aSua vez de jogar."
 								set {status.game.%player%} to "&8Aguarde o adversario jogar."
-								set {X.%loop-value%.%player%} to "&ax"
-								set {X.%loop-value%.%arg 3%} to "&ex"
 								set {set.x.%loop-value%.%player%} to true
 								set {set.x.%loop-value%.%arg 3%} to true
 								set {rodada.%player%} to true
 								set {empate.id.%loop-value%.%player%} to true
 								set {empate.id.%loop-value%.%arg 3%} to true
-								invoke "jogo.da.velha" from player
-								invoke "jogo.da.velha.ad" from arg 3
+								if {GameMenu} is true:
+									set {X.%loop-value%.%player%} to light green glass
+									set {X.%loop-value%.%arg 3%} to yellow glass
+									invoke "menu.jogo.da.velha" from player
+									invoke "menu.jogo.da.velha.ad" from arg 3
+								else:
+									set {X.%loop-value%.%player%} to "&ax"
+									set {X.%loop-value%.%arg 3%} to "&ex"
+									invoke "jogo.da.velha" from player
+									invoke "jogo.da.velha.ad" from arg 3
 								clear {id.list.%player%::*}
 								stop
 			if arg 1 is "ad":
@@ -42,22 +48,28 @@ command /oktge [<text>] [<text>] [<offlineplayer>]:
 								delete {status.game.%player%}
 								set {status.game.%arg 3%} to "&aSua vez de jogar."
 								set {status.game.%player%} to "&8Aguarde o adversario jogar."
-								set {X.%loop-value%.%player%} to "&ax"
-								set {X.%loop-value%.%arg 3%} to "&ex"
 								set {set.x.%loop-value%.%player%} to true
 								set {set.x.%loop-value%.%arg 3%} to true
 								set {rodada.%player%} to true
 								set {empate.id.%loop-value%.%player%} to true
 								set {empate.id.%loop-value%.%arg 3%} to true
-								invoke "jogo.da.velha" from arg 3
-								invoke "jogo.da.velha.ad" from player
+								if {GameMenu} is true:
+									set {X.%loop-value%.%player%} to light green glass
+									set {X.%loop-value%.%arg 3%} to yellow glass
+									invoke "menu.jogo.da.velha" from arg 3
+									invoke "menu.jogo.da.velha.ad" from player
+								else:
+									set {X.%loop-value%.%player%} to "&ax"
+									set {X.%loop-value%.%arg 3%} to "&ex"
+									invoke "jogo.da.velha" from arg 3
+									invoke "jogo.da.velha.ad" from player
 								clear {id.list.%player%::*}
 								stop
 command /wiadhna [<text>]:
 	trigger:
 		if arg 1 is set:
-			if {victory.id.1.%player%} is set:	
-				if {victory.id.2.%player%} is set:	
+			if {victory.id.1.%player%} is set:
+				if {victory.id.2.%player%} is set:
 					if {victory.id.3.%player%} is set:
 						delete {status.game.%player%}
 						delete {status.game.%arg 1%}
@@ -65,11 +77,14 @@ command /wiadhna [<text>]:
 						set {rodada.%arg 1%} to true
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1						
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1				
+						else:
+							invoke "jogo.da.velha.ad" from arg 1				
 						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
-			if {victory.id.4.%player%} is set:	
+			if {victory.id.4.%player%} is set:
 				if {victory.id.5.%player%} is set:
 					if {victory.id.6.%player%} is set:
 						delete {status.game.%player%}
@@ -78,7 +93,10 @@ command /wiadhna [<text>]:
 						set {rodada.%arg 1%} to true
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1					
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1					
+						else:
+							invoke "jogo.da.velha.ad" from arg 1				
 						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
@@ -91,7 +109,10 @@ command /wiadhna [<text>]:
 						set {rodada.%arg 1%} to true
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1					
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1						
+						else:
+							invoke "jogo.da.velha.ad" from arg 1						
 						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
@@ -104,9 +125,12 @@ command /wiadhna [<text>]:
 						set {rodada.%arg 1%} to true
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1	
-						wait 3 seconds						
-						invoke "fim.config" from player					
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1						
+						else:
+							invoke "jogo.da.velha.ad" from arg 1						
+						wait 3 seconds
+						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
 			if {victory.id.2.%player%} is set:
 				if {victory.id.5.%player%} is set:
@@ -118,7 +142,10 @@ command /wiadhna [<text>]:
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
 						set {rodada.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1						
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1						
+						else:
+							invoke "jogo.da.velha.ad" from arg 1						
 						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
@@ -130,7 +157,10 @@ command /wiadhna [<text>]:
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
 						set {rodada.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1						
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1						
+						else:
+							invoke "jogo.da.velha.ad" from arg 1						
 						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
@@ -143,8 +173,11 @@ command /wiadhna [<text>]:
 						set {rodada.%arg 1%} to true
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1
-						wait 3 seconds	
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1						
+						else:
+							invoke "jogo.da.velha.ad" from arg 1						
+						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
 			if {victory.id.3.%player%} is set:
@@ -156,8 +189,11 @@ command /wiadhna [<text>]:
 						set {rodada.%arg 1%} to true
 						set {game.victory.fim.%player%} to true
 						set {game.derrota.fim.%arg 1%} to true
-						invoke "jogo.da.velha.ad" from arg 1	
-						wait 3 seconds	
+						if {GameMenu} is true:
+							invoke "menu.jogo.da.velha.ad" from arg 1						
+						else:
+							invoke "jogo.da.velha.ad" from arg 1						
+						wait 3 seconds
 						invoke "fim.config" from player
 						invoke "fim.config" from arg 1
 			if {empate.id.2.%player%} is set:
@@ -170,10 +206,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.3.%player%} is set:
@@ -185,10 +224,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -200,10 +242,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -215,10 +260,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -230,10 +278,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -245,10 +296,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -260,10 +314,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -275,10 +332,13 @@ command /wiadhna [<text>]:
 										if {empate.id.9.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
-											invoke "fim.config" from arg 1
 											invoke "fim.config" from player
+											invoke "fim.config" from arg 1
 											stop
 			if {empate.id.1.%player%} is set:
 				if {empate.id.2.%player%} is set:
@@ -290,11 +350,15 @@ command /wiadhna [<text>]:
 										if {empate.id.8.%player%} is set:
 											set {game.empate.%player%} to true
 											set {game.empate.%arg 1%} to true
-											invoke "jogo.da.velha.ad" from arg 1
+											if {GameMenu} is true:
+												invoke "menu.jogo.da.velha.ad" from arg 1						
+											else:
+												invoke "jogo.da.velha.ad" from arg 1						
 											wait 3 seconds
 											invoke "fim.config" from player
 											invoke "fim.config" from arg 1
 											stop
+#Criador: ReFlexoo
 sub "fim.config":
 	set {_p} to parameter 1
 	delete {game.on.%{_p}%}
